@@ -1,0 +1,13 @@
+LocationProvider.iml
+bin/AndroidManifest.xml
+bin/AndroidManifest.xml.d
+bin/jarlist.cache
+bin/proguard.txt
+build.xml
+gen/R.java.d
+gen/com/example/android/mocklocation/BuildConfig.java
+gen/com/example/android/mocklocation/Manifest.java
+gen/com/example/android/mocklocation/R.java
+local.properties
+proguard-project.txt
+project.properties
