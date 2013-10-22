@@ -187,7 +187,7 @@ public class SendMockLocationService extends Service implements
                 }
 
                 // Get the device uptime and the current clock time
-                elapsedTimeNanos = SystemClock.elapsedRealtimeNanos();
+                //elapsedTimeNanos = SystemClock.elapsedRealtimeNanos();
                 currentTime = System.currentTimeMillis();
 
                 /*
@@ -203,7 +203,7 @@ public class SendMockLocationService extends Service implements
                          * Set the time values for the test location. Both an elapsed system uptime
                          * and the current clock time in UTC timezone must be specified.
                          */
-                        mockLocation.setElapsedRealtimeNanos(elapsedTimeNanos);
+                        //mockLocation.setElapsedRealtimeNanos(elapsedTimeNanos);
                         mockLocation.setTime(currentTime);
 
                         // Set the location accuracy, latitude, and longitude
@@ -225,8 +225,8 @@ public class SendMockLocationService extends Service implements
                              * Change the elapsed uptime and clock time by the amount of time
                              * requested.
                              */
-                            elapsedTimeNanos += (long) injectionInterval *
-                                    LocationUtils.NANOSECONDS_PER_SECOND;
+                            //elapsedTimeNanos += (long) injectionInterval *
+                            //        LocationUtils.NANOSECONDS_PER_SECOND;
                             currentTime += injectionInterval *
                                     LocationUtils.MILLISECONDS_PER_SECOND;
                     }
@@ -280,8 +280,9 @@ public class SendMockLocationService extends Service implements
         /*
          * Load the mock location data from MockLocationConstants.java
          */
-        mLocationArray = buildTestLocationArray(LocationUtils.WAYPOINTS_LAT,
-                LocationUtils.WAYPOINTS_LNG, LocationUtils.WAYPOINTS_ACCURACY);
+        mLocationArray = buildTestLocationArray( R.array.lat,
+                                                 R.array.lng,
+                                                 R.array.acc);
 
         /*
          * Prepare to send status updates back to the main activity.
@@ -427,26 +428,30 @@ public class SendMockLocationService extends Service implements
         return Service.START_STICKY;
     }
 
+
     /**
      * Build an array of test location data for later use.
      *
-     * @param lat_array An array of latitude values
-     * @param lng_array An array of longitude values
-     * @param accuracy_array An array of accuracy values
+     * @param lat_id Resource reference id for array of latitudes
+     * @param lng_id AResource reference id for array of longitudes
+     * @param acc_id Resource reference id for array of accuracies
      *
      * @return An array of test location data
      */
-    private TestLocation[] buildTestLocationArray(double[] lat_array, double[] lng_array,
-        float[] accuracy_array) {
+    private TestLocation[] buildTestLocationArray(int lat_id, int lng_id, int acc_id) {
+
+        final String[] lat_s_array = getApplicationContext().getResources().getStringArray(lat_id);
+        final String[] lng_s_array = getApplicationContext().getResources().getStringArray(lng_id);
+        final String[] acc_s_array = getApplicationContext().getResources().getStringArray(acc_id);
 
         // Temporary array of location data
-        TestLocation[] location_array = new TestLocation[lat_array.length];
+        TestLocation[] location_array = new TestLocation[lat_s_array.length];
 
         /*
          * Iterate through all the arrays of data. This loop assumes that the arrays
          * all have the same length.
          */
-        for (int index = 0; index < lat_array.length; index++) {
+        for (int index = 0; index < lat_s_array.length; index++) {
 
             /*
              * For each location, create a new location storage object. Set the "provider"
@@ -455,9 +460,9 @@ public class SendMockLocationService extends Service implements
              */
             location_array[index] =
                     new TestLocation(Integer.toString(index),
-                            lat_array[index],
-                            lng_array[index],
-                            accuracy_array[index]);
+                            Double.valueOf(lat_s_array[index]),
+                            Double.valueOf(lng_s_array[index]),
+                            Float.valueOf(acc_s_array[index]));
         }
 
         // Return the temporary array
