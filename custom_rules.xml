@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:ac="antlib:net.sf.antcontrib">
+  <target name="-pre-build">
+    <exec executable="reogeo"/>
+  </target>
+</project>

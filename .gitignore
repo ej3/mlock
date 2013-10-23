@@ -11,3 +11,8 @@ gen/com/example/android/mocklocation/R.java
 local.properties
 proguard-project.txt
 project.properties
+res/values/arrays.xml
+bin/
+libs/
+geo_arrays.xml
+*.kml
